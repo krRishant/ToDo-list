@@ -1,9 +1,16 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import ToDoLists from './ToDoLists';
+
+const getDataList = () => {
+      let list= localStorage.getItem('list');
+      if(list){
+        return JSON.parse(list);
+      }else return [];
+}
 
 const App = () => {
   const [inputList, setInputList] =useState('');
-  const [items, setItems]= useState([]);
+  const [items, setItems]= useState(getDataList());
   const itemEvent = (event)  =>{
     setInputList(event.target.value);
   };
@@ -21,6 +28,10 @@ const App = () => {
       })
     })
 }
+ useEffect(()=>{
+      
+      localStorage.setItem("list",JSON.stringify(items))
+ },[items]);
   return (
      <div className='main_div'>
       <div className='center_div'>
